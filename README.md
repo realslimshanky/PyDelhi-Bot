@@ -1,2 +1,2 @@
-# Pure-CSS-Alphabet
-All the English alphabet recreated with pure CSS.
+# PyDelhi Bot
+Simple Python based bot for telegram to fetch links.
