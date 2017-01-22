@@ -61,17 +61,22 @@ Venue : %s
 
 def facebook(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id, text='http://bit.ly/pydelhi-facebook')
 
 def github(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id, text='http://github.com/pydelhi')
+
+def invitelink(bot,update):
+	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+	sleep(0.2)
+	bot.sendMessage(chat_id=update.message.chat_id, text='https://telegram.me/joinchat/B90LyQVj1nswbAk2x4tJ6g')
 
 def help(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id, text='''
 Use one of the following commands
 /mailinglist - to get PyDelhi Mailing List link
@@ -80,6 +85,7 @@ Use one of the following commands
 /meetuppage - to get a link to PyDelhi Meetup page
 /nextmeetup - to get info about next Meetup
 /facebook - to get a link to PyDelhi Facebook page
+/invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
 
 To contribute to|modify this bot : https://github.com/realslimshanky/PyDelhi-Bot
 ''')
@@ -92,7 +98,8 @@ twitter_handler = CommandHandler('twitter', twitter)
 meetup_handler = CommandHandler('meetuppage', meetup)
 nextmeetup_handler = CommandHandler('nextmeetup', nextmeetup)
 facebook_handler = CommandHandler('facebook', facebook)
-github_handler = CommandHandler('github', facebook)
+github_handler = CommandHandler('github', github)
+invitelink_handler = CommandHandler('invitelink', invitelink)
 help_handler = CommandHandler('help', help)
 
 dispatcher.add_handler(start_handler)
@@ -104,6 +111,7 @@ dispatcher.add_handler(meetup_handler)
 dispatcher.add_handler(nextmeetup_handler)
 dispatcher.add_handler(facebook_handler)
 dispatcher.add_handler(github_handler)
+dispatcher.add_handler(invitelink_handler)
 dispatcher.add_handler(help_handler)
 
 updater.start_polling()
