@@ -19,3 +19,5 @@ Simple Python based bot for telegram to fetch links.
 
 * Following [commands](https://core.telegram.org/bots#commands) were added
   * /invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
+* [BugFix]
+  * Timezone changed from UTC to IST

@@ -1,7 +1,8 @@
 from telegram.ext import Updater,CommandHandler
 from telegram import ChatAction
-from datetime import datetime, timezone
-import logging,requests
+from datetime import datetime, timedelta
+from pytz import timezone
+import logging,requests,pytz
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
@@ -9,6 +10,8 @@ updater=Updater(token='BOT_API_KEY')
 dispatcher=updater.dispatcher
 
 meetupApi={'sign':'true','key':'MEETUP_API_KEY'}
+
+utc = pytz.utc
 
 def start(bot, update, args):
 	bot.sendMessage(chat_id=update.message.chat_id,text='''
@@ -46,9 +49,10 @@ def nextmeetup(bot, update):
 	r=requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
 	event_link=r.json()[0]['link']
 	date_time=r.json()[0]['time']//1000
-	utc_time = datetime.fromtimestamp(int(date_time), timezone.utc)
-	local_time = utc_time.astimezone()
-	date_time = local_time.strftime("%Y-%m-%d %H:%M:%S (%Z)")
+	utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
+	indian_tz = timezone('Asia/Kolkata')
+	date_time=utc_dt.astimezone(indian_tz)
+	date_time=date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
 	if 'venue' in r.json()[0]:
 		venue=r.json()[0]['venue']['address_1']
 	else:
