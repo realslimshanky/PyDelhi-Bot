@@ -21,3 +21,13 @@ Simple Python based bot for telegram to fetch links.
   * /invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
 * [BugFix]
   * Timezone changed from UTC to IST
+
+
+### Version 1.2 : deployed on Febriuary 4th 2017
+
+* Following [commands](https://core.telegram.org/bots#commands) were added
+  * /nextmeetupschedule - to get the complete schedule of next meetup
+* [Enhancement]
+  * Mapped location of the venue of next meetup is now send with the /nextmeetup command
+* [BugFix]
+  * Location was map is now accurate which was previously showing "Egypt" instead "JNU Delhi" for [5th February meetup](https://www.meetup.com/pydelhi/events/234562550/)

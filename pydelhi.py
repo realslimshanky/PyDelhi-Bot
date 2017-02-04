@@ -13,40 +13,45 @@ meetupApi={'sign':'true','key':'MEETUP_API_KEY'}
 
 utc = pytz.utc
 
+print("I'm On..!!")
+
 def start(bot, update, args):
+	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id,text='''
 Hi! My powers are solely for the service of PyDelhi Community
 Use /help to get /help''')
 
 def mailing_list(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id,text='http://bit.ly/pydelhi-mailinglist')
 
 def website(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id,text='https://pydelhi.org/')
 
 def irc(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id,text='http://bit.ly/pydelhi-irc')
 
 def twitter(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
-        bot.sendMessage(chat_id=update.message.chat_id,text='http://bit.ly/pydelhi-twitter')
+	sleep(0.2)
+	bot.sendMessage(chat_id=update.message.chat_id,text='http://bit.ly/pydelhi-twitter')
 
 def meetup(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id,text='http://wwww.meetup.com/pydelhi')
 
 def nextmeetup(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
-	time.sleep(0.2)
+	sleep(0.2)
 	r=requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
+	print(r.json()[0])
 	event_link=r.json()[0]['link']
 	date_time=r.json()[0]['time']//1000
 	utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
@@ -55,13 +60,25 @@ def nextmeetup(bot, update):
 	date_time=date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
 	if 'venue' in r.json()[0]:
 		venue=r.json()[0]['venue']['address_1']
+		bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'],longitude=r.json()[0]['venue']['lon'])
 	else:
 		venue='Venue is still to be decided'
 	bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup
 Date/Time : %s
 Venue : %s
-'''%(date_time, venue))
+Event Page : %s
+'''%(date_time, venue, event_link))
+
+def nextmeetups(bot, update):
+	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+	sleep(0.2)
+	r=requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
+	print(r.json()[0])
+	bot.sendMessage(chat_id=update.message.chat_id, text='''
+Next Meetup Schedule
+%s
+'''%(re.sub('<br/>',' ',re.sub('<p>',' ',re.sub('</p>','\n',r.json()[0]['description'])))),parse_mode='HTML')
 
 def facebook(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
@@ -88,34 +105,24 @@ Use one of the following commands
 /twitter - to get Pydelhi Twitter link
 /meetuppage - to get a link to PyDelhi Meetup page
 /nextmeetup - to get info about next Meetup
+/nextmeetupschedule - to get schedule of next Meetup
 /facebook - to get a link to PyDelhi Facebook page
 /invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
 
 To contribute to|modify this bot : https://github.com/realslimshanky/PyDelhi-Bot
 ''')
 
-start_handler = CommandHandler('start', start, pass_args=True)
-mailing_list_handler = CommandHandler('mailinglist', mailing_list)
-website_handler = CommandHandler('website', website)
-irc_handler = CommandHandler('irc', irc)
-twitter_handler = CommandHandler('twitter', twitter)
-meetup_handler = CommandHandler('meetuppage', meetup)
-nextmeetup_handler = CommandHandler('nextmeetup', nextmeetup)
-facebook_handler = CommandHandler('facebook', facebook)
-github_handler = CommandHandler('github', github)
-invitelink_handler = CommandHandler('invitelink', invitelink)
-help_handler = CommandHandler('help', help)
-
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(mailing_list_handler)
-dispatcher.add_handler(website_handler)
-dispatcher.add_handler(irc_handler)
-dispatcher.add_handler(twitter_handler)
-dispatcher.add_handler(meetup_handler)
-dispatcher.add_handler(nextmeetup_handler)
-dispatcher.add_handler(facebook_handler)
-dispatcher.add_handler(github_handler)
-dispatcher.add_handler(invitelink_handler)
-dispatcher.add_handler(help_handler)
+dispatcher.add_handler(CommandHandler('start', start, pass_args=True))
+dispatcher.add_handler(CommandHandler('mailinglist', mailing_list))
+dispatcher.add_handler(CommandHandler('website', website))
+dispatcher.add_handler(CommandHandler('irc', irc))
+dispatcher.add_handler(CommandHandler('twitter', twitter))
+dispatcher.add_handler(CommandHandler('meetuppage', meetup))
+dispatcher.add_handler(CommandHandler('nextmeetup', nextmeetup))
+dispatcher.add_handler(CommandHandler('nextmeetupschedule', nextmeetups))
+dispatcher.add_handler(CommandHandler('facebook', facebook))
+dispatcher.add_handler(CommandHandler('github', github))
+dispatcher.add_handler(CommandHandler('invitelink', invitelink))
+dispatcher.add_handler(CommandHandler('help', help))
 
 updater.start_polling()
