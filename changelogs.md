@@ -33,7 +33,7 @@ Simple Python based bot for telegram to fetch links.
   * Location was map is now accurate which was previously showing "Egypt" instead "JNU Delhi" for [5th February meetup](https://www.meetup.com/pydelhi/events/234562550/)
 
 
-### Version 2.0 : deployed on Febriuary 13th 2017
+### Version 2.0 : deployed on Febriuary 12th 2017
 
 * New Feature added to handle different teams for events like PyDelhi Conference.
 * Supported teams are 
@@ -45,3 +45,9 @@ Simple Python based bot for telegram to fetch links.
   * Social Media - `/socialmediateam`
 * Teams can modified by using `/modifyteam` with a operation (add or remove), a team name (one from the above) and a set of usernames. For example, `/modifyteam add website @realslimshanky`
 * Only specific people(admins) can make above commands.
+
+
+### Version 2.1 : deployed on Febriuary 13th 2017
+
+* Visibility of team members is made accessible to public now.
+* '@' is removed from team member's name to manually ping them when needed.

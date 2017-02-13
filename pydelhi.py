@@ -7,16 +7,16 @@ import logging,requests,pytz,re,ast
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
-updater=Updater(token='Telegram-Bot-API-Key')
+updater=Updater(token='Telegram-Bot-API-Token')
 dispatcher=updater.dispatcher
 
-meetupApi={'sign':'true','key':'Meetup-API-Key'}
+meetupApi={'sign':'true','key':'Meetup-API-Token'}
 
 utc = pytz.utc
 
 volunteer={}
 
-admins=['list-of-people-who-can-call-upon-or-modify-teams']
+admins=['list-of-people-who-can-modify-teams']
 
 with open('volunteer.json', 'r') as fp:
     volunteer = ast.literal_eval(fp.read())
@@ -107,48 +107,39 @@ def invitelink(bot,update):
 def socialmediateam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['socialmedia'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['socialmedia'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Social Media team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
 
 def designteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['design'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['design'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Design Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
 
 def logisticsteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['logistics'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['logistics'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Logistics Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
         
@@ -156,58 +147,48 @@ Please appear online.""")
 def websiteteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['website'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['website'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Website Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
 
 def vendorteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['vendor'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['vendor'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Vendor Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
 
 def sponsorshipteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if username in admins:
-        team=' '.join(volunteer['sponsorship'].split('-'))
+    if True:
+        v=[x[1:] for x in volunteer['sponsorship'].split('-')]
+        team='  '.join(v)
         if team!='':
-                if username!='':
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-You have been summoned by @"""+username+""".
-Please appear online.""")
-                else:
-                        bot.sendMessage(chat_id=update.message.chat_id, text=team+"""
-Please appear online.""")
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Sponsorship Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
 
 def modifyteam(bot,update,args):
         m=update.message.to_dict()
-	    #print(m['chat'])
         username=m['from']['username']
         if username in admins:
-                if True:
-                                if m['chat']['id']!=-90429051:
+                if m['chat']['type']=='private':
+                                if m['chat']['id']==-90429051:
                                         bot.sendMessage(chat_id=update.message.chat_id, text='You can only make changes from inside PyDelhi Group')
                                 else:
                                         if len(args)<3:
