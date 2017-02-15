@@ -51,3 +51,8 @@ Simple Python based bot for telegram to fetch links.
 
 * Visibility of team members is made accessible to public now.
 * '@' is removed from team member's name to manually ping them when needed.
+
+
+### Version 2.2 : deployed on Febriuary 14th 2017
+
+* Support for descriptions containing <a> tag. In the /nextmeetupschedule use of <a> tag was prohibitted since Telegram HTML parser doesn not support that. So, I analysed the input json from meetup.com and substituted <a> tag out of it.
