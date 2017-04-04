@@ -16,3 +16,4 @@ Simple Python based bot for telegram to fetch links.
   * [python-telegram-bot](https://pypi.python.org/pypi/python-telegram-bot)
   * [requests](https://pypi.python.org/pypi/requests)
   * [pytz](http://pypi.python.org/pypi/pytz)
+  * or run `pip install -r requirements.txt`
