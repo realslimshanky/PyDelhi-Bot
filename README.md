@@ -8,7 +8,7 @@ Simple Python based bot for telegram to fetch links.
 
 ### How To Contribute
 
-* Please create and issue or work on existing [issues](https://github.com/realslimshanky/PyDelhi-Bot/issues) by mentioning your name on that particular issue.
+* Please create an issue or work on existing [issues](https://github.com/realslimshanky/PyDelhi-Bot/issues) by mentioning your name on that particular issue.
 
 ### How To Deploy
 
