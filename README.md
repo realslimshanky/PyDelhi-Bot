@@ -15,8 +15,9 @@ Simple Python based bot for telegram to fetch links.
 * Python version 3.5 is used to create the bot
 * Virtual Environment is recommended
 * A bot API key is required to be edited in pydelhi.py which can be aquired from [BotFather](https://telegram.me/botfather)
-* Install following packages
+* Installing dependencies
+  * run `pip install -r requirements.txt`
+    or install following packages individually
   * [python-telegram-bot](https://pypi.python.org/pypi/python-telegram-bot)
   * [requests](https://pypi.python.org/pypi/requests)
   * [pytz](http://pypi.python.org/pypi/pytz)
-  * or run `pip install -r requirements.txt`
