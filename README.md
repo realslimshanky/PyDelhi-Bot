@@ -1,7 +1,8 @@
 # [PyDelhi](https://pydelhi.org) Bot
 Simple Python based bot for telegram to fetch links.
 
-### Current Version - Version 2.2
+### Current Version - Version 3
+New version now contains Process ID and Token/Key management with inline documentation explaining the code.
 
 ### Quick Basics
 * [Telegram Bot Using Python](https://www.youtube.com/watch?v=J6aZlUzxL5w) - PyDelhi Conference 2017
