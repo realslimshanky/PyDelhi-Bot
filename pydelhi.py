@@ -30,7 +30,6 @@ else:
             print(configError)
             sys.exit()
 
-
 updater=Updater(token=TelegramBotToken)
 dispatcher=updater.dispatcher
 

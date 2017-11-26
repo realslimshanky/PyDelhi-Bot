@@ -12,12 +12,9 @@ Simple Python based bot for telegram to fetch links.
 
 ### How To Deploy
 
-* Python version 3.5 is used to create the bot
-* Virtual Environment is recommended
-* A bot API key is required to be edited in pydelhi.py which can be aquired from [BotFather](https://telegram.me/botfather)
-* Installing dependencies
-  * run `pip install -r requirements.txt`
-    or install following packages individually
-  * [python-telegram-bot](https://pypi.python.org/pypi/python-telegram-bot)
-  * [requests](https://pypi.python.org/pypi/requests)
-  * [pytz](http://pypi.python.org/pypi/pytz)
+* Install [Python 3](https://www.python.org/downloads/)
+* Install [pip](https://pip.pypa.io/en/stable/installing/) for Python 3
+* Clone this repository to by running `git clone https://github.com/realslimshanky/PyDelhi-Bot.git`
+* Open Terminal and get inside the repository folder by running `cd PyDelhi-Bot`
+* Install pipenv by running `pip install pipenv`
+* Run the program by `pipenv run python pydelhi.py` and follow the instructions if mentioned.
