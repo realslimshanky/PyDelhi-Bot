@@ -55,4 +55,11 @@ Simple Python based bot for telegram to fetch links.
 
 ### Version 2.2 : deployed on Febriuary 14th 2017
 
-* Support for descriptions containing <a> tag. In the /nextmeetupschedule use of <a> tag was prohibitted since Telegram HTML parser doesn not support that. So, I analysed the input json from meetup.com and substituted <a> tag out of it.
+* Support for descriptions containing `<a>` tag. In the /nextmeetupschedule use of `<a>` tag was prohibitted since Telegram HTML parser doesn not support that. So, I analysed the input json from meetup.com and substituted `<a>` tag out of it.
+
+### Version 2.3 : deployed on November 26th 2017
+
+* Telegram and Meetup token/key has now been segregated from the main script i.e. `pydelhi.py` inside `config.txt`.
+* `config.txt` is checked for existance and token/key validation everytime the `pydelhi.py` runs.
+* `virtualenv` has been replaced with `pipenv` which is easy to use and leaves lesser footprint on the project repository.
+* `pid` has been added to store the process id of the running python instance for `pydelhi.py` in order to easily terminate the process before running a new instance.
