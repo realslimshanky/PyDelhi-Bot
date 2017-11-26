@@ -7,16 +7,16 @@ import logging,requests,pytz,re,ast
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
-updater=Updater(token='Telegram-Bot-API-Token')
+updater=Updater(token='322157236:AAE-7ZsO3wCOo0uN5z_FZGqJdo4by0yvSCk')
 dispatcher=updater.dispatcher
 
-meetupApi={'sign':'true','key':'Meetup-API-Token'}
+meetupApi={'sign':'true','key':'1f3a6837551e1d795f443d5e366a2e32'}
 
 utc = pytz.utc
 
 volunteer={}
 
-admins=['list-of-people-who-can-modify-teams']
+admins=['anuvrat','piyushmaurya23','aktech','akash47','Quanon','realslimshanky']
 
 with open('volunteer.json', 'r') as fp:
     volunteer = ast.literal_eval(fp.read())
@@ -68,16 +68,19 @@ def nextmeetup(bot, update):
         date_time=utc_dt.astimezone(indian_tz)
         date_time=date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
         if 'venue' in r.json()[0]:
-                venue=r.json()[0]['venue']['address_1']
+                venue=r.json()[0]['venue']['name']
+                address=r.json()[0]['venue']['address_1']
                 bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'],longitude=r.json()[0]['venue']['lon'])
         else:
                 venue='Venue is still to be decided'
+                address='Address will be updated once venue is fixed'
         bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup
 Date/Time : %s
 Venue : %s
+Address : %s
 Event Page : %s
-'''%(date_time, venue, event_link))
+'''%(date_time, venue, address, event_link))
 
 def nextmeetups(bot, update):
         bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
@@ -102,12 +105,20 @@ def github(bot, update):
 def invitelink(bot,update):
         bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
         sleep(0.2)
-        bot.sendMessage(chat_id=update.message.chat_id, text='https://telegram.me/joinchat/B90LyQVj1nswbAk2x4tJ6g')
+        bot.sendMessage(chat_id=update.message.chat_id, text='https://t.me/joinchat/AAAAAEK2nzPg0IlwbbAing')
 
 def socialmediateam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['socialmedia'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Social Media team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
+    else:
         v=[x[1:] for x in volunteer['socialmedia'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -120,7 +131,15 @@ Please use '@' at the start of each username to ping them.""")
 def designteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['design'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Design Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
+    else:
         v=[x[1:] for x in volunteer['design'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -133,7 +152,15 @@ Please use '@' at the start of each username to ping them.""")
 def logisticsteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['logistics'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Logistics Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
+    else:
         v=[x[1:] for x in volunteer['logistics'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -147,7 +174,15 @@ Please use '@' at the start of each username to ping them.""")
 def websiteteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['website'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Website Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one in this team yet.')
+    else:
         v=[x[1:] for x in volunteer['website'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -160,7 +195,15 @@ Please use '@' at the start of each username to ping them.""")
 def vendorteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['vendor'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Vendor Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
+    else:
         v=[x[1:] for x in volunteer['vendor'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -170,10 +213,39 @@ Please use '@' at the start of each username to ping them.""")
         else:
                 bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
 
+def venueteam(bot,update):
+    m=update.message.to_dict()
+    username=m['from']['username']
+    if username in admins:
+        team='  '.join(volunteer['venue'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Venue Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
+    else:
+        v=[x[1:] for x in volunteer['venue'].split('-')]
+        team='  '.join(v)
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Venue Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
+
 def sponsorshipteam(bot,update):
     m=update.message.to_dict()
     username=m['from']['username']
-    if True:
+    if username in admins:
+        team='  '.join(volunteer['sponsorship'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""Sponsorship Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one on this team yet.')
+    else:
         v=[x[1:] for x in volunteer['sponsorship'].split('-')]
         team='  '.join(v)
         if team!='':
@@ -181,7 +253,29 @@ def sponsorshipteam(bot,update):
 """+team+"""
 Please use '@' at the start of each username to ping them.""")
         else:
-                bot.sendMessage(chat_id=update.message.chat_id, text='Noone on this team yet.')
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one on this team yet.')
+
+
+def cfpteam(bot,update):
+    m=update.message.to_dict()
+    username=m['from']['username']
+    if username in admins:
+        team='  '.join(volunteer['cfp'].split('-'))
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""CFP Team
+"""+team+"""
+You have been summoned by @"""+username+""". Please appear online.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one on this team yet.')
+    else:
+        v=[x[1:] for x in volunteer['cfp'].split('-')]
+        team='  '.join(v)
+        if team!='':
+                bot.sendMessage(chat_id=update.message.chat_id, text="""CFP Team
+"""+team+"""
+Please use '@' at the start of each username to ping them.""")
+        else:
+                bot.sendMessage(chat_id=update.message.chat_id, text='No one on this team yet.')
 
 def modifyteam(bot,update,args):
         m=update.message.to_dict()
@@ -192,10 +286,10 @@ def modifyteam(bot,update,args):
                                         bot.sendMessage(chat_id=update.message.chat_id, text='You can only make changes from inside PyDelhi Group')
                                 else:
                                         if len(args)<3:
-                                                bot.sendMessage(chat_id=update.message.chat_id, text='Please type /modifyteam<space>add/remove<space>socialmedia/design/website/vendor/logistics<space>space seperated usernames.')
+                                                bot.sendMessage(chat_id=update.message.chat_id, text='Please type /modifyteam <space> add/remove <space> socialmedia/design/website/vendor/logistics/sponsorship/cfp/venue <space> space seperated usernames.')
                                         else:
                                                 if args[0]=='add' or args[0]=='remove':
-                                                        if args[1]=='socialmedia' or args[1]=='website' or args[1]=='vendor' or args[1]=='logistics' or args[1]=='design':
+                                                        if args[1]=='socialmedia' or args[1]=='website' or args[1]=='vendor' or args[1]=='logistics' or args[1]=='design' or args[1]=='sponsorship' or args[1]=='venue' or args[1]=='cfp':
                                                                 team=volunteer[args[1]].split('-')
                                                                 if args[0]=='add':
                                                                         for x in args[2:]:
@@ -240,17 +334,32 @@ def modifyteam(bot,update,args):
                                                                                 else:
                                                                                                 bot.sendMessage(chat_id=update.message.chat_id, text="Nothing to modify in team.")
                                                         else:
-                                                                bot.sendMessage(chat_id=update.message.chat_id, text="Please use on of these teams, socialmedia/design/website/vendor/logistics")
+                                                                bot.sendMessage(chat_id=update.message.chat_id, text="Please use on of these teams, socialmedia/design/website/vendor/logistics/sponsorship/cfp/venues")
                                                 else:
                                                         bot.sendMessage(chat_id=update.message.chat_id, text="Please 'add' or 'remove'")
                 else:
                         bot.sendMessage(chat_id=update.message.chat_id, text='You cannot edit team members in a private chat.')		
+
+def teams(bot, update):
+	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
+	sleep(0.2)
+	bot.sendMessage(chat_id=update.message.chat_id, text='''
+/socialmediateam
+/logisticsteam
+/websiteteam
+/designteam
+/cfpteam
+/sponsorshipteam
+/vendorteam
+/venueteam
+''')
 
 def help(bot, update):
 	bot.sendChatAction(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 	sleep(0.2)
 	bot.sendMessage(chat_id=update.message.chat_id, text='''
 Use one of the following commands
+/teams - to get all the team names
 /mailinglist - to get PyDelhi Mailing List link
 /irc - to get a link to Pydelhi IRC channel
 /twitter - to get Pydelhi Twitter link
@@ -279,8 +388,11 @@ dispatcher.add_handler(CommandHandler('socialmediateam', socialmediateam))
 dispatcher.add_handler(CommandHandler('logisticsteam', logisticsteam))
 dispatcher.add_handler(CommandHandler('websiteteam', websiteteam))
 dispatcher.add_handler(CommandHandler('designteam', designteam))
+dispatcher.add_handler(CommandHandler('cfpteam', cfpteam))
 dispatcher.add_handler(CommandHandler('sponsorshipteam', sponsorshipteam))
 dispatcher.add_handler(CommandHandler('vendorteam', vendorteam))
+dispatcher.add_handler(CommandHandler('venueteam', venueteam))
+dispatcher.add_handler(CommandHandler('teams', teams))
 dispatcher.add_handler(CommandHandler('modifyteam', modifyteam, pass_args=True))
 dispatcher.add_handler(CommandHandler('help', help))
 
