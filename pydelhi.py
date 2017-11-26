@@ -1,26 +1,49 @@
-from telegram.ext import Updater,CommandHandler
+from telegram.ext import Updater, CommandHandler
 from telegram import ChatAction
 from datetime import datetime, timedelta
 from pytz import timezone
 from time import sleep
-import logging,requests,pytz,re,ast
+import logging
+import requests
+import pytz
+import re
+import ast
+import os
+import json
+import sys
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 
-updater=Updater(token='322157236:AAE-7ZsO3wCOo0uN5z_FZGqJdo4by0yvSCk')
+configError = "Please open config.txt file located in the project directory and relace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"
+if 'config.txt' not in os.listdir():
+    with open('config.txt', mode='w') as f:
+        json.dump({ 'Telegram-Bot-Token': 0, 'Meetup-API-Key': 0 }, f)
+        print(configError)
+else:
+    with open('config.txt', mode='r') as f:
+        config = json.loads(f.read())
+        if config["Telegram-Bot-Token"] or config["Meetup-API-Key"]:
+            print("Token Present,continuing...")
+            TelegramBotToken = config["Telegram-Bot-Token"]
+            MeetupAPIKey = config["Meetup-API-Key"]
+        else:
+            print(configError)
+            sys.exit()
+
+
+updater=Updater(token=TelegramBotToken)
 dispatcher=updater.dispatcher
 
-meetupApi={'sign':'true','key':'1f3a6837551e1d795f443d5e366a2e32'}
+meetupApi={'sign':'true','key': MeetupAPIKey}
 
 utc = pytz.utc
 
 volunteer={}
 
-admins=['anuvrat','piyushmaurya23','aktech','akash47','Quanon','realslimshanky']
+admins = ['anuvrat','piyushmaurya23','aktech','akash47','Quanon','realslimshanky']
 
 with open('volunteer.json', 'r') as fp:
     volunteer = ast.literal_eval(fp.read())
-    #print(volunteer)
 
 print("I'm On..!!")
 
