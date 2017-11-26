@@ -28,7 +28,7 @@ else:
             MeetupAPIKey = config["Meetup-API-Key"]
         else:
             print(configError)
-            sys.exit()
+            sys.exit(0)
 
 updater=Updater(token=TelegramBotToken)
 dispatcher=updater.dispatcher
