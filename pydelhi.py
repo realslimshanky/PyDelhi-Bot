@@ -48,6 +48,7 @@ if 'config.txt' not in os.listdir():
     with open('config.txt', mode='w') as f:
         json.dump({'Telegram-Bot-Token': 0, 'Meetup-API-Key': 0}, f)
         print(configError)
+        sys.exit(0)
 else:
     with open('config.txt', mode='r') as f:
         config = json.loads(f.read())
