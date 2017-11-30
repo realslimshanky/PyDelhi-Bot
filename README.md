@@ -4,6 +4,11 @@ Simple Python based bot for telegram to fetch links.
 ### Current Version - Version 3
 New version now contains Process ID and Token/Key management with inline documentation explaining the code.
 
+### Official Forks
+* [PyData Delhi Bot](https://github.com/realslimshanky/PyData-Delhi-Bot)
+* [PyLadies Delhi Bot](https://github.com/realslimshanky/PyLadiesDelhiBot)
+* [Cryptocurrency India Bot](https://github.com/realslimshanky/Cryptocurrency-India-Bot)
+
 ### Quick Basics
 * [Telegram Bot Using Python](https://www.youtube.com/watch?v=J6aZlUzxL5w) - PyDelhi Conference 2017
 
