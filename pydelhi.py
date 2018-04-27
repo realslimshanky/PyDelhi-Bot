@@ -483,12 +483,12 @@ def invitelink(bot, update):
 
 
 def help(bot, update):
+    # /teams - to get all the team names ( Depreciated )
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     sleep(0.2)
     bot.sendMessage(chat_id=update.message.chat_id, text='''
 Use one of the following commands
-/teams - to get all the team names ( Depreciated )
 /mailinglist - to get PyDelhi Mailing List link
 /irc - to get a link to Pydelhi IRC channel
 /twitter - to get Pydelhi Twitter link
