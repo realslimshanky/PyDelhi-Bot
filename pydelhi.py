@@ -145,8 +145,7 @@ def nextmeetup(bot, update):
     if 'venue' in r.json()[0]:
         venue = r.json()[0]['venue']['name']
         address = r.json()[0]['venue']['address_1']
-        bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[
-                         0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])
+        #bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])
     else:
         venue = 'Venue is still to be decided'
         address = 'Address will be updated once venue is fixed'
