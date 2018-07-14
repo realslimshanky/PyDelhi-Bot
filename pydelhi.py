@@ -167,7 +167,7 @@ def nextmeetups(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup Schedule
 %s
-''' % (re.sub('</a>', '', re.sub('<a href="', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')
+''' % (re.sub('</a>', '', re.sub('<a href="', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n',re.sub('class="linkified">','', r.json()[0]['description']))))))), parse_mode='HTML')
 
 
 def facebook(bot, update):
