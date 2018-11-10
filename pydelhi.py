@@ -163,11 +163,11 @@ def nextmeetups(bot, update):
                        action=ChatAction.TYPING)
     sleep(0.2)
     r = requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
-    #print(re.sub('</a>', '', re.sub('<a.*?>', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description']))))))
+    #print(re.sub('</a>','',re.sub('<a href="','',re.sub('<br/>',' ',re.sub('<p>',' ',re.sub('</p>','\n',r.json()[0]['description']))))))
     bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup Schedule
 %s
-''' % (re.sub('</a>', '', re.sub('<a.*?>', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')
+''' % (re.sub('</a>', '', re.sub('<a href="', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')
 
 
 def facebook(bot, update):
