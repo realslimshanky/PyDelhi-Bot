@@ -1,2 +1,4 @@
-config.txt
+Pipfile
+Pipfile.lock
+config.json
 pid
