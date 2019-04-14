@@ -188,7 +188,8 @@ def invitelink(bot, update):
                        action=ChatAction.TYPING)
     sleep(0.2)
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text='https://t.me/joinchat/AAAAAEK2nzPg0IlwbbAing')
+                    text='''To prevent spamming we have removed invite link from the group,
+please ping any one of the admin/moderators of PyDelhi to help you add your friend to the group.''')
 
 
 def help(bot, update):
