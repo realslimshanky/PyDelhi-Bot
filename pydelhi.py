@@ -161,7 +161,7 @@ def nextmeetups(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup Schedule
 %s
-''' % (re.sub('</a>', '', re.sub('<a href="', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')  # NOQA
+''' % (re.sub('</a>', '', re.sub('<a.*?>', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')  # NOQA
 
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
