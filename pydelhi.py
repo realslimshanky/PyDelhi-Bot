@@ -40,9 +40,9 @@ else:
 
 """
 ---Token/Key Management Starts---
-This part will check for the config.json file which holds the Telegram and Meetup Token/Key and will also give a user friendly message if they are invalid. New file is created if not present in the project directory.
+This part will check for the config.json file which holds the Telegram and Meetup Token/Key and will also give a user friendly message if they are invalid. New file is created if not present in the project directory.  # NOQA
 """
-configError = "Please open config.json file located in the project directory and relace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"
+configError = "Please open config.json file located in the project directory and relace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"   # NOQA
 if 'config.json' not in os.listdir():
     with open('config.json', mode='w') as f:
         json.dump({'Telegram-Bot-Token': 0, 'Meetup-API-Key': 0}, f)
@@ -64,8 +64,6 @@ else:
 
 updater = Updater(token=TelegramBotToken)
 dispatcher = updater.dispatcher
-
-meetupApi = {'sign': 'true', 'key': MeetupAPIKey}
 
 utc = pytz.utc
 
@@ -125,29 +123,30 @@ def nextmeetup(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     sleep(0.2)
-    r = requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
+    r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
+
     if r.json():
-        event_link = r.json()[0]['link']
-        date_time = r.json()[0]['time'] // 1000
+        event_link = r.json()[0].get('link')
+        date_time = r.json()[0].get('time', 0) // 1000
         utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
         indian_tz = timezone('Asia/Kolkata')
         date_time = utc_dt.astimezone(indian_tz)
         date_time = date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
-        if 'venue' in r.json()[0]:
-            venue = r.json()[0]['venue']['name']
-            address = r.json()[0]['venue']['address_1']
-            # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
-        else:
-            venue = 'Venue is still to be decided'
-            address = 'Address will be updated once venue is fixed'
+        venue = r.json()[0].get('venue', {}).get(
+            'name', 'Either venue is not set or will be announced later')
+        address = r.json()[0].get('venue', {}).get(
+            'address_1', 'Either address is not set or will be announced later')
+        # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
+        city = r.json()[0].get('venue', {}).get(
+            'city', 'Either city is not set or will be announced later')
         bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup
 Date/Time : %s
 Venue : %s
 Address : %s
+City : %s
 Event Page : %s
-''' % (date_time, venue, address, event_link))
-
+''' % (date_time, venue, address, city, event_link))
     else:
         bot.sendMessage(chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
 
@@ -156,7 +155,7 @@ def nextmeetups(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     sleep(0.2)
-    r = requests.get('http://api.meetup.com/pydelhi/events', params=meetupApi)
+    r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
     if r.json():
         bot.sendMessage(chat_id=update.message.chat_id, text='''
 Next Meetup Schedule
