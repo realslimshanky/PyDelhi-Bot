@@ -1,11 +1,13 @@
 certifi==2019.3.9
+chardet==3.0.4
 entrypoints==0.3
 flake8==3.7.7
 future==0.17.1
+idna==2.8
 mccabe==0.6.1
 pycodestyle==2.5.0
 pyflakes==2.1.1
 python-telegram-bot==5.3.0
 pytz==2016.10
-requests==2.12.5
+requests==2.21.0
 urllib3==1.24.1
