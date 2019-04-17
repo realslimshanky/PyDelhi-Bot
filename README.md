@@ -22,6 +22,5 @@ New version now contains Process ID and Token/Key management with inline documen
 * Install [pip](https://pip.pypa.io/en/stable/installing/) for Python 3
 * Clone this repository to by running `git clone https://github.com/realslimshanky/PyDelhi-Bot.git`
 * Open Terminal and get inside the repository folder by running `cd PyDelhi-Bot`
-* Install pipenv by running `pip install pipenv`
-* To install all other requirements simply run `pipenv install`
-* Run the program by `pipenv run python pydelhi.py` and follow the instructions mentioned.
+* Install dependencies by running `pip install -r requirements.txt` (virutal envionment recommended)
+* Run the program by `python pydelhi.py` and follow the instructions mentioned.
