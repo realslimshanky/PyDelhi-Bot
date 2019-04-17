@@ -199,7 +199,7 @@ def invitelink(bot, update):
 please ping any one of the admin/moderators of PyDelhi to help you add your friend to the group.''')
 
 
-def help(bot, update):
+def gethelp(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     sleep(0.2)
@@ -231,6 +231,6 @@ dispatcher.add_handler(CommandHandler('nextmeetupschedule', nextmeetups))
 dispatcher.add_handler(CommandHandler('facebook', facebook))
 dispatcher.add_handler(CommandHandler('github', github))
 dispatcher.add_handler(CommandHandler('invitelink', invitelink))
-dispatcher.add_handler(CommandHandler('help', help))
+dispatcher.add_handler(CommandHandler('help', gethelp))
 
 updater.start_polling()
