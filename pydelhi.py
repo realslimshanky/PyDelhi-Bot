@@ -150,7 +150,8 @@ City : %s
 Event Page : %s
 ''' % (date_time, venue, address, city, event_link))
     else:
-        bot.sendMessage(chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
+        bot.sendMessage(
+            chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
 
 
 def nextmeetups(bot, update):
