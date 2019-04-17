@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from telegram.ext import Updater, CommandHandler
 from telegram import ChatAction
 from datetime import datetime
