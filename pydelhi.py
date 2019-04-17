@@ -156,14 +156,20 @@ def nextmeetups(bot, update):
                        action=ChatAction.TYPING)
     sleep(0.2)
     r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
+
     if r.json():
-        bot.sendMessage(chat_id=update.message.chat_id, text='''
-Next Meetup Schedule
+        bot.sendMessage(
+            chat_id=update.message.chat_id,
+            text='''
+Next Meetup Schedule/Description
 %s
-''' % (re.sub('</a>', '', re.sub('<a.*?>', '', re.sub('<br/>', ' ', re.sub('<p>', ' ', re.sub('</p>', '\n', r.json()[0]['description'])))))), parse_mode='HTML')  # NOQA
+Event Page: %s
+''' % (re.sub(r'<[\w/=":.\- ]+>', ' ', r.json()[0].get('description')), r.json()[0].get('link')),
+            parse_mode='HTML')
 
     else:
-        bot.sendMessage(chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
+        bot.sendMessage(
+            chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
 
 
 def facebook(bot, update):
