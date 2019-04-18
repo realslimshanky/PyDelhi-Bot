@@ -1,4 +1,4 @@
-# [PyDelhi](https://pydelhi.org) Bot
+# [PyDelhi](https://pydelhi.org) Bot [![CircleCI](https://circleci.com/gh/realslimshanky/PyDelhi-Bot.svg?style=svg)](https://circleci.com/gh/realslimshanky/PyDelhi-Bot)
 Simple Python based bot for telegram to fetch links.
 
 ### Current Version - Version 3
