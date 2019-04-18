@@ -1,0 +1,15 @@
+jobs:
+  build:
+    docker:
+        - image: circleci/python:3.6
+    working_directory: ~/repo
+    steps:
+        - checkout
+        - run:
+            name: Install dependencies
+            command: |
+                sudo pip install -r requirements.txt
+        - run:
+            name: Run flake8 test
+            command: |
+                flake8 --exclude=venv* --statistics
