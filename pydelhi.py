@@ -71,60 +71,51 @@ utc = pytz.utc
 
 logging.info("I'm On..!!")
 
-
-def start(bot, update, args):
+def typing(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
     sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id, text='''
+
+
+def message(bot, update, link):
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text=link)
+
+
+def chatAction(bot, update, link):
+    typing(bot, update)
+    message(bot, update, link)
+    
+                    
+
+def start(bot, update, args):
+    chatAction(bot, update, '''
 Hi! My powers are solely for the service of PyDelhi Community
 Use /help to get /help''')
 
 
 def mailing_list(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://bit.ly/pydelhi-mailinglist')
+    chatAction(bot, update, 'http://bit.ly/pydelhi-mailinglist')
 
 
 def website(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='https://pydelhi.org/')
+    chatAction(bot, update, 'https://pydelhi.org/')
 
 
 def irc(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://bit.ly/pydelhi-irc')
+    chatAction(bot, update, 'http://bit.ly/pydelhi-irc')
 
 
 def twitter(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://bit.ly/pydelhi-twitter')
+    chatAction(bot, update, 'http://bit.ly/pydelhi-twitter')
 
 
 def meetup(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://wwww.meetup.com/pydelhi')
+    chatAction(bot, update, 'http://wwww.meetup.com/pydelhi')
 
 
 def nextmeetup(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
+    typing(bot, update)
     r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
 
     if r.json():
@@ -141,7 +132,7 @@ def nextmeetup(bot, update):
         # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
         city = r.json()[0].get('venue', {}).get(
             'city', 'Either city is not set or will be announced later')
-        bot.sendMessage(chat_id=update.message.chat_id, text='''
+        message(bot, update, '''
 Next Meetup
 Date/Time : %s
 Venue : %s
@@ -150,20 +141,15 @@ City : %s
 Event Page : %s
 ''' % (date_time, venue, address, city, event_link))
     else:
-        bot.sendMessage(
-            chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
+        message(bot, update, "Next meetup hasn't been scheduled yet!")
 
 
 def nextmeetups(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
+    typing(bot, update)
     r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
 
     if r.json():
-        bot.sendMessage(
-            chat_id=update.message.chat_id,
-            text='''
+        message(bot, update, '''
 Next Meetup Schedule/Description
 %s
 Event Page: %s
@@ -171,40 +157,24 @@ Event Page: %s
             parse_mode='HTML')
 
     else:
-        bot.sendMessage(
-            chat_id=update.message.chat_id, text="Next meetup hasn't been scheduled yet!")
+        message(bot, update, "Next meetup hasn't been scheduled yet!")
 
 
 def facebook(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://bit.ly/pydelhi-facebook')
+    chatAction(bot, update, 'http://bit.ly/pydelhi-facebook')
 
 
 def github(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='http://github.com/pydelhi')
+    chatAction(bot, update, 'http://github.com/pydelhi')
 
 
 def invitelink(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text='''To prevent spamming we have removed invite link from the group,
+    chatAction(bot, update, '''To prevent spamming we have removed invite link from the group,
 please ping any one of the admin/moderators of PyDelhi to help you add your friend to the group.''')
-
+    
 
 def gethelp(bot, update):
-    bot.sendChatAction(chat_id=update.message.chat_id,
-                       action=ChatAction.TYPING)
-    sleep(0.2)
-    bot.sendMessage(chat_id=update.message.chat_id, text='''
+    chatAction(bot, update, '''
 Use one of the following commands
 /mailinglist - to get PyDelhi Mailing List link
 /irc - to get a link to Pydelhi IRC channel
