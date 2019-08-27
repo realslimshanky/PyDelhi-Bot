@@ -44,7 +44,7 @@ else:
 ---Token/Key Management Starts---
 This part will check for the config.json file which holds the Telegram and Meetup Token/Key and will also give a user friendly message if they are invalid. New file is created if not present in the project directory.  # NOQA
 """
-configError = "Please open config.json file located in the project directory and relace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"   # NOQA
+configError = "Please open config.json file located in the project directory and replace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"   # NOQA
 if 'config.json' not in os.listdir():
     with open('config.json', mode='w') as f:
         json.dump({'Telegram-Bot-Token': 0, 'Meetup-API-Key': 0}, f)

@@ -23,7 +23,7 @@ Simple Python based bot for telegram to fetch links.
   * Timezone changed from UTC to IST
 
 
-### Version 1.2 : deployed on Febriuary 4th 2017
+### Version 1.2 : deployed on February 4th 2017
 
 * Following [commands](https://core.telegram.org/bots#commands) were added
   * `/nextmeetupschedule` - to get the complete schedule of next meetup
@@ -33,7 +33,7 @@ Simple Python based bot for telegram to fetch links.
   * Location was map is now accurate which was previously showing "Egypt" instead "JNU Delhi" for [5th February meetup](https://www.meetup.com/pydelhi/events/234562550/)
 
 
-### Version 2.0 : deployed on Febriuary 12th 2017
+### Version 2.0 : deployed on February 12th 2017
 
 * New Feature added to handle different teams for events like PyDelhi Conference.
 * Supported teams are 
@@ -47,15 +47,15 @@ Simple Python based bot for telegram to fetch links.
 * Only specific people(admins) can make above commands.
 
 
-### Version 2.1 : deployed on Febriuary 13th 2017
+### Version 2.1 : deployed on February 13th 2017
 
 * Visibility of team members is made accessible to public now.
 * '@' is removed from team member's name to manually ping them when needed.
 
 
-### Version 2.2 : deployed on Febriuary 14th 2017
+### Version 2.2 : deployed on February 14th 2017
 
-* Support for descriptions containing `<a>` tag. In the /nextmeetupschedule use of `<a>` tag was prohibitted since Telegram HTML parser doesn not support that. So, I analysed the input json from meetup.com and substituted `<a>` tag out of it.
+* Support for descriptions containing `<a>` tag. In the /nextmeetupschedule use of `<a>` tag was prohibitted since Telegram HTML parser does not support that. So, I analysed the input json from meetup.com and substituted `<a>` tag out of it.
 
 ### Version 3 : deployed on November 26th 2017
 
