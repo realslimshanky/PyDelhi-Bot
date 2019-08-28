@@ -16,7 +16,8 @@ import signal
 import subprocess
 
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO)
 
 """
 ---Process ID Management Starts---
@@ -71,6 +72,7 @@ utc = pytz.utc
 
 logging.info("I'm On..!!")
 
+
 def typing(bot, update):
     bot.sendChatAction(chat_id=update.message.chat_id,
                        action=ChatAction.TYPING)
@@ -85,8 +87,7 @@ def message(bot, update, link):
 def chatAction(bot, update, link):
     typing(bot, update)
     message(bot, update, link)
-    
-                    
+
 
 def start(bot, update, args):
     chatAction(bot, update, '''
@@ -116,8 +117,8 @@ def meetup(bot, update):
 
 def nextmeetup(bot, update):
     typing(bot, update)
-    r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
-
+    r = requests.get('http://api.meetup.com/pydelhi/events',
+                     params=MeetupAPIKey)
     if r.json():
         event_link = r.json()[0].get('link')
         date_time = r.json()[0].get('time', 0) // 1000
@@ -128,7 +129,8 @@ def nextmeetup(bot, update):
         venue = r.json()[0].get('venue', {}).get(
             'name', 'Either venue is not set or will be announced later')
         address = r.json()[0].get('venue', {}).get(
-            'address_1', 'Either address is not set or will be announced later')
+            'address_1', 'Either address is not set or will be'
+            'announced later')
         # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
         city = r.json()[0].get('venue', {}).get(
             'city', 'Either city is not set or will be announced later')
@@ -146,15 +148,16 @@ Event Page : %s
 
 def nextmeetups(bot, update):
     typing(bot, update)
-    r = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
+    r = requests.get('http://api.meetup.com/pydelhi/events',
+                     params=MeetupAPIKey)
 
     if r.json():
         message(bot, update, '''
 Next Meetup Schedule/Description
 %s
 Event Page: %s
-''' % (re.sub(r'<[\w/=":.\- ]+>', ' ', r.json()[0].get('description')), r.json()[0].get('link')),
-            parse_mode='HTML')
+''' % (re.sub(r'<[\w/=":.\- ]+>', ' ', r.json()[0].get('description')),
+            r.json()[0].get('link')), parse_mode='HTML')
 
     else:
         message(bot, update, "Next meetup hasn't been scheduled yet!")
@@ -169,9 +172,10 @@ def github(bot, update):
 
 
 def invitelink(bot, update):
-    chatAction(bot, update, '''To prevent spamming we have removed invite link from the group,
-please ping any one of the admin/moderators of PyDelhi to help you add your friend to the group.''')
-    
+    chatAction(bot, update, '''To prevent spamming we have removed invite
+    link from the group, please ping any one of the admin/moderators of
+    PyDelhi to help you add your friend to the group.''')
+
 
 def gethelp(bot, update):
     chatAction(bot, update, '''
@@ -187,7 +191,8 @@ Use one of the following commands
 /invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
 /help - to see recursion in action
 
-To contribute to|modify this bot : https://github.com/realslimshanky/PyDelhi-Bot
+To contribute to|modify this bot :
+https://github.com/realslimshanky/PyDelhi-Bot
 ''')
 
 
