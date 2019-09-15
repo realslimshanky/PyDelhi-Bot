@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from telegram.ext import Updater, CommandHandler
-from telegram import ChatAction
-from datetime import datetime
-from pytz import timezone
-from time import sleep
-import logging
-import requests
-import pytz
-import re
-import os
 import json
-import sys
+import logging
+import os
+import re
 import signal
 import subprocess
+import sys
+from datetime import datetime
+from time import sleep
+
+import pytz
+import requests
+from pytz import timezone
+from telegram import ChatAction
+from telegram.ext import CommandHandler, Updater
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
