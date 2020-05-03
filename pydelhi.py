@@ -97,7 +97,7 @@ Use /help to get /help''')
 
 
 def mailing_list(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-mailinglist')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-mailinglist')
 
 
 def website(bot, update):
@@ -105,15 +105,15 @@ def website(bot, update):
 
 
 def irc(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-irc')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-irc')
 
 
 def twitter(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-twitter')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-twitter')
 
 
 def meetup(bot, update):
-    chatAction(bot, update, 'http://wwww.meetup.com/pydelhi')
+    chatAction(bot, update, 'https://www.meetup.com/pydelhi')
 
 
 def nextmeetup(bot, update):
