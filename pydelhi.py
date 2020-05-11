@@ -118,6 +118,7 @@ def meetup(bot, update):
 def youtube(bot, update):
     chatAction(bot, update, 'https://www.youtube.com/channel/UC3QVyJ-Zt0QoYAibn4SD20A')
 
+
 def nextmeetup(bot, update):
     typing(bot, update)
     r = requests.get('http://api.meetup.com/pydelhi/events',
