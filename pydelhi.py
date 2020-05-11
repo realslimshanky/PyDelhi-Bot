@@ -115,6 +115,8 @@ def twitter(bot, update):
 def meetup(bot, update):
     chatAction(bot, update, 'https://www.meetup.com/pydelhi')
 
+def youtube(bot, update):
+    chatAction(bot, update, 'https://www.youtube.com/channel/UC3QVyJ-Zt0QoYAibn4SD20A')
 
 def nextmeetup(bot, update):
     typing(bot, update)
