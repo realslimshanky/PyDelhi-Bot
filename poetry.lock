@@ -119,7 +119,7 @@ json = ["ujson"]
 
 [[package]]
 name = "pytz"
-version = "2016.10"
+version = "2022.1"
 description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
@@ -159,7 +159,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.6,<4"
-content-hash = "24679920568879e698b34180bd148e26999b26c12d0bfd126bd4d4ccc4e81f0b"
+content-hash = "2e83058b3471b1c1af1c894fc0eb9e9cd5843d79e516179f358510adcab5c6e6"
 
 [metadata.files]
 certifi = []
