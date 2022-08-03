@@ -1,0 +1,7 @@
+setup.cfg
+setup.py
+telegram/__init__.py
+telegram.egg-info/PKG-INFO
+telegram.egg-info/SOURCES.txt
+telegram.egg-info/dependency_links.txt
+telegram.egg-info/top_level.txt
