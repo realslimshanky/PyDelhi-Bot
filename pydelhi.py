@@ -13,8 +13,10 @@ from time import sleep
 import pytz
 import requests
 from pytz import timezone
-from telegram import ChatAction
+from telegram import ChatAction, ParseMode
 from telegram.ext import CommandHandler, Updater
+
+import meetup_api
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -80,9 +82,11 @@ def typing(bot, update):
     sleep(0.2)
 
 
-def message(bot, update, link):
+def message(bot, update, link, parse_mode=ParseMode.MARKDOWN):
     bot.sendMessage(chat_id=update.message.chat_id,
-                    text=link)
+                    parse_mode=parse_mode,
+                    text=link,
+                    )
 
 
 def chatAction(bot, update, link):
@@ -118,33 +122,41 @@ def meetup(bot, update):
 
 def nextmeetup(bot, update):
     typing(bot, update)
-    r = requests.get('http://api.meetup.com/pydelhi/events',
-                     params=MeetupAPIKey)
-    if r.json():
-        event_link = r.json()[0].get('link')
-        date_time = r.json()[0].get('time', 0) // 1000
-        utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
-        indian_tz = timezone('Asia/Kolkata')
-        date_time = utc_dt.astimezone(indian_tz)
-        date_time = date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
-        venue = r.json()[0].get('venue', {}).get(
-            'name', 'Either venue is not set or will be announced later')
-        address = r.json()[0].get('venue', {}).get(
-            'address_1', 'Either address is not set or will be'
-            'announced later')
-        # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
-        city = r.json()[0].get('venue', {}).get(
-            'city', 'Either city is not set or will be announced later')
-        message(bot, update, '''
-Next Meetup
-Date/Time : %s
-Venue : %s
-Address : %s
-City : %s
-Event Page : %s
-''' % (date_time, venue, address, city, event_link))
-    else:
+    r = meetup_api.get_next_event('pydelhi')
+    if not isinstance(r, dict):
         message(bot, update, "Next meetup hasn't been scheduled yet!")
+        return
+
+    name = r['event_name']
+    description = r['event_description']
+    event_link = r['event_link']
+    date_time = r['date_time'] // 1000
+    utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
+    indian_tz = timezone('Asia/Kolkata')
+    date_time = utc_dt.astimezone(indian_tz)
+    date_time = date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
+    is_online = r['is_online']
+
+    # ? is it event possible to get the venue etc from the unoffical API? possibly not
+    # venue = r.json()[0].get('venue', {}).get(
+    #     'name', 'Either venue is not set or will be announced later')
+    # address = r.json()[0].get('venue', {}).get(
+    #     'address_1', 'Either address is not set or will be'
+    #     'announced later')
+    # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
+    # city = r.json()[0].get('venue', {}).get(
+    #     'city', 'Either city is not set or will be announced later')
+
+    message(bot, update, f"""
+Next Meetup ✨
+*Name:* {name}
+*Description:* {description}
+*Date/Time:* {date_time}
+*Online?* {is_online}
+*Location/link:* [Check event page!]
+*Event Page:* {event_link}
+""",
+            )
 
 
 def nextmeetups(bot, update):
