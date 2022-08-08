@@ -92,9 +92,8 @@ def chatAction(bot, update, link):
 
 def start(bot, update, args):
     chatAction(bot, update, '''
-Hi! My powers are solely for the service of PyDelhi Community
-Use /help to get /help''')
-
+Hi, I am PyDelhi Bot ! I exist to serve the PyDelhi Community.
+Use /help for assistance ''')
 
 def mailing_list(bot, update):
     chatAction(bot, update, 'https://bit.ly/pydelhi-mailinglist')
@@ -110,6 +109,10 @@ def irc(bot, update):
 
 def twitter(bot, update):
     chatAction(bot, update, 'https://bit.ly/pydelhi-twitter')
+
+
+def linkedin(bot, update):
+    chatAction(bot, update, 'https://in.linkedin.com/company/pydelhi-community')     
 
 
 def meetup(bot, update):
@@ -187,9 +190,11 @@ Use one of the following commands
 /mailinglist - to get PyDelhi Mailing List link
 /irc - to get a link to Pydelhi IRC channel
 /twitter - to get Pydelhi Twitter link
+/linkedin - to get Pydelhi Linkedin link
 /meetuppage - to get a link to PyDelhi Meetup page
 /nextmeetup - to get info about next Meetup
 /nextmeetupschedule - to get schedule of next Meetup
+/website - to get the official website link
 /facebook - to get a link to PyDelhi Facebook page
 /github - to get a link to PyDelhi Github page
 /invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
@@ -205,6 +210,7 @@ dispatcher.add_handler(CommandHandler('mailinglist', mailing_list))
 dispatcher.add_handler(CommandHandler('website', website))
 dispatcher.add_handler(CommandHandler('irc', irc))
 dispatcher.add_handler(CommandHandler('twitter', twitter))
+dispatcher.add_handler(CommandHandler('linkedin', linkedin))
 dispatcher.add_handler(CommandHandler('meetuppage', meetup))
 dispatcher.add_handler(CommandHandler('nextmeetup', nextmeetup))
 dispatcher.add_handler(CommandHandler('nextmeetupschedule', nextmeetups))
