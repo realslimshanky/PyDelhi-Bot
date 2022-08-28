@@ -139,15 +139,15 @@ def nextmeetup(bot, update):
         message(bot, update, "Next meetup hasn't been scheduled yet!")
         return
 
-    name = response['event_name']
-    description = response['event_description']
-    event_link = response['event_link']
-    date_time = response['date_time'] // 1000
+    name = response['name']
+    description = response['plain_text_no_images_description']
+    event_link = response['link']
+    date_time = response['time'] // 1000
     utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
     indian_tz = timezone('Asia/Kolkata')
     date_time = utc_dt.astimezone(indian_tz)
     date_time = date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
-    is_online = response['is_online']
+    is_online = response['is_online_event']
 
     message(
         bot,
