@@ -34,8 +34,7 @@ else:
     with open('pid', mode='r') as f:
         try:
             os.kill(int(f.read()), signal.SIGTERM)
-            logging.error("Terminating previous instance of " +
-                          os.path.realpath(__file__))
+            logging.error(f'Terminating previous instance of {os.path.realpath(__file__)}')
         except ProcessLookupError:
             subprocess.run(['rm', 'pid'])
     with open('pid', mode='w') as f:
@@ -57,10 +56,10 @@ if 'config.json' not in os.listdir():
 else:
     with open('config.json', mode='r') as f:
         config = json.loads(f.read())
-        if config["Telegram-Bot-Token"] or config["Meetup-API-Key"]:
-            logging.info("Token Present, continuing...")
-            TelegramBotToken = config["Telegram-Bot-Token"]
-            MeetupAPIKey = config["Meetup-API-Key"]
+        if config['Telegram-Bot-Token'] or config['Meetup-API-Key']:
+            logging.info('Token Present, continuing...')
+            TelegramBotToken = config['Telegram-Bot-Token']
+            MeetupAPIKey = config['Meetup-API-Key']
         else:
             logging.error(configError)
             sys.exit(0)
@@ -95,13 +94,18 @@ def chatAction(bot, update, link):
 
 
 def start(bot, update, args):
-    chatAction(bot, update, '''
-Hi! My powers are solely for the service of PyDelhi Community
-Use /help to get /help''')
+    chatAction(
+        bot,
+        update,
+        (
+            'Hi, I am PyDelhi Bot ! I exist to serve the PyDelhi Community.\n'
+            'Use /help for assistance.'
+        ),
+    )
 
 
 def mailing_list(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-mailinglist')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-mailinglist')
 
 
 def website(bot, update):
@@ -109,68 +113,74 @@ def website(bot, update):
 
 
 def irc(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-irc')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-irc')
 
 
 def twitter(bot, update):
-    chatAction(bot, update, 'http://bit.ly/pydelhi-twitter')
+    chatAction(bot, update, 'https://bit.ly/pydelhi-twitter')
+
+
+def linkedin(bot, update):
+    chatAction(bot, update, 'https://in.linkedin.com/company/pydelhi-community')
 
 
 def meetup(bot, update):
-    chatAction(bot, update, 'http://wwww.meetup.com/pydelhi')
+    chatAction(bot, update, 'https://www.meetup.com/pydelhi')
+
+
+def youtube(bot, update):
+    chatAction(bot, update, 'https://www.youtube.com/channel/UC3QVyJ-Zt0QoYAibn4SD20A')
 
 
 def nextmeetup(bot, update):
     typing(bot, update)
-    r = meetup_api.get_next_event('pydelhi')
-    if not isinstance(r, dict):
+    response = meetup_api.get_next_event('pydelhi')
+    if not isinstance(response, dict):
         message(bot, update, "Next meetup hasn't been scheduled yet!")
         return
 
-    name = r['event_name']
-    description = r['event_description']
-    event_link = r['event_link']
-    date_time = r['date_time'] // 1000
+    name = response['event_name']
+    description = response['event_description']
+    event_link = response['event_link']
+    date_time = response['date_time'] // 1000
     utc_dt = utc.localize(datetime.utcfromtimestamp(date_time))
     indian_tz = timezone('Asia/Kolkata')
     date_time = utc_dt.astimezone(indian_tz)
     date_time = date_time.strftime('%Y-%m-%d %H:%M:%S %Z%z')
-    is_online = r['is_online']
+    is_online = response['is_online']
 
-    # ? is it event possible to get the venue etc from the unoffical API? possibly not
-    # venue = r.json()[0].get('venue', {}).get(
-    #     'name', 'Either venue is not set or will be announced later')
-    # address = r.json()[0].get('venue', {}).get(
-    #     'address_1', 'Either address is not set or will be'
-    #     'announced later')
-    # bot.sendLocation(chat_id=update.message.chat_id, latitude=r.json()[0]['venue']['lat'], longitude=r.json()[0]['venue']['lon'])  # NOQA
-    # city = r.json()[0].get('venue', {}).get(
-    #     'city', 'Either city is not set or will be announced later')
-
-    message(bot, update, f"""
-Next Meetup ✨
-*Name:* {name}
-*Description:* {description}
-*Date/Time:* {date_time}
-*Online?* {is_online}
-*Location/link:* [Check event page!]
-*Event Page:* {event_link}
-""",
-            )
+    message(
+        bot,
+        update,
+        (
+            'Next Meetup ✨\n'
+            f'*Name:* {name}\n'
+            f'*Description:* {description}\n'
+            f'*Date/Time:* {date_time}\n'
+            f'*Online?* {is_online}\n'
+            '*Location/link:* [Check event page!]\n'
+            f'*Event Page:* {event_link}'
+        ),
+    )
 
 
 def nextmeetups(bot, update):
     typing(bot, update)
-    r = requests.get('http://api.meetup.com/pydelhi/events',
-                     params=MeetupAPIKey)
+    response = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
 
-    if r.json():
-        message(bot, update, '''
-Next Meetup Schedule/Description
-%s
-Event Page: %s
-''' % (re.sub(r'<[\w/=":.\- ]+>', ' ', r.json()[0].get('description')),
-            r.json()[0].get('link')), parse_mode='HTML')
+    if response.json():
+        event_description = re.sub(r'<[\w/=":.\- ]+>', ' ', response.json()[0].get('description'))
+        meetup_link = response.json()[0].get('link')
+        message(
+            bot,
+            update,
+            (
+                'Next Meetup Schedule/Description\n'
+                f'{event_description}'
+                f'Event Page: {meetup_link}'
+            ),
+            parse_mode='HTML',
+        )
 
     else:
         message(bot, update, "Next meetup hasn't been scheduled yet!")
@@ -185,28 +195,39 @@ def github(bot, update):
 
 
 def invitelink(bot, update):
-    chatAction(bot, update, '''To prevent spamming we have removed invite
-    link from the group, please ping any one of the admin/moderators of
-    PyDelhi to help you add your friend to the group.''')
+    chatAction(
+        bot,
+        update,
+        (
+            'To prevent spamming we have removed invite\n'
+            'link from the group, please ping any one of the admin/moderators of\n'
+            'PyDelhi to help you add your friend to the group.\n'
+        ),
+    )
 
 
 def gethelp(bot, update):
-    chatAction(bot, update, '''
-Use one of the following commands
-/mailinglist - to get PyDelhi Mailing List link
-/irc - to get a link to Pydelhi IRC channel
-/twitter - to get Pydelhi Twitter link
-/meetuppage - to get a link to PyDelhi Meetup page
-/nextmeetup - to get info about next Meetup
-/nextmeetupschedule - to get schedule of next Meetup
-/facebook - to get a link to PyDelhi Facebook page
-/github - to get a link to PyDelhi Github page
-/invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers
-/help - to see recursion in action
-
-To contribute to|modify this bot :
-https://github.com/realslimshanky/PyDelhi-Bot
-''')
+    chatAction(
+        bot,
+        update,
+        (
+            'Use one of the following commands\n'
+            '/mailinglist - to get PyDelhi Mailing List link\n'
+            '/irc - to get a link to Pydelhi IRC channel\n'
+            '/twitter - to get Pydelhi Twitter link\n'
+            '/linkedin - to get Pydelhi Linkedin link\n'
+            '/meetuppage - to get a link to PyDelhi Meetup page\n'
+            '/nextmeetup - to get info about next Meetup\n'
+            '/nextmeetupschedule - to get schedule of next Meetup\n'
+            '/website - to get the official website link\n'
+            '/facebook - to get a link to PyDelhi Facebook page\n'
+            '/github - to get a link to PyDelhi Github page\n'
+            '/invitelink - to get an invite link for PyDelhi Telegram Group of Volunteers\n'
+            '/help - to see recursion in action\n\n'
+            'To contribute to|modify this bot :\n'
+            'https://github.com/realslimshanky/PyDelhi-Bot'
+        ),
+    )
 
 
 dispatcher.add_handler(CommandHandler('start', start, pass_args=True))
@@ -214,6 +235,7 @@ dispatcher.add_handler(CommandHandler('mailinglist', mailing_list))
 dispatcher.add_handler(CommandHandler('website', website))
 dispatcher.add_handler(CommandHandler('irc', irc))
 dispatcher.add_handler(CommandHandler('twitter', twitter))
+dispatcher.add_handler(CommandHandler('linkedin', linkedin))
 dispatcher.add_handler(CommandHandler('meetuppage', meetup))
 dispatcher.add_handler(CommandHandler('nextmeetup', nextmeetup))
 dispatcher.add_handler(CommandHandler('nextmeetupschedule', nextmeetups))
