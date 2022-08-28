@@ -3,7 +3,6 @@
 import json
 import logging
 import os
-import re
 import signal
 import subprocess
 import sys
@@ -11,7 +10,6 @@ from datetime import datetime
 from time import sleep
 
 import pytz
-import requests
 from pytz import timezone
 from telegram import ChatAction, ParseMode
 from telegram.ext import CommandHandler, Updater
@@ -45,21 +43,23 @@ else:
 
 """
 ---Token/Key Management Starts---
-This part will check for the config.json file which holds the Telegram and Meetup Token/Key and will also give a user friendly message if they are invalid. New file is created if not present in the project directory.  # NOQA
+This part will check for the config.json file which holds the Telegram and will also give a user friendly message if they are invalid. New file is created if not present in the project directory.  # NOQA
 """
-configError = "Please open config.json file located in the project directory and replace the value '0' of Telegram-Bot-Token with the Token you recieved from botfather and similarly for Meetup-API-Key"   # NOQA
+configError = (
+    "Please open config.json file located in the project directory and replace the value '0' of "
+    "Telegram-Bot-Token with the Token you recieved from botfather"
+)
 if 'config.json' not in os.listdir():
     with open('config.json', mode='w') as f:
-        json.dump({'Telegram-Bot-Token': 0, 'Meetup-API-Key': 0}, f)
+        json.dump({'Telegram-Bot-Token': 0}, f)
         logging.info(configError)
         sys.exit(0)
 else:
     with open('config.json', mode='r') as f:
         config = json.loads(f.read())
-        if config['Telegram-Bot-Token'] or config['Meetup-API-Key']:
+        if config['Telegram-Bot-Token']:
             logging.info('Token Present, continuing...')
             TelegramBotToken = config['Telegram-Bot-Token']
-            MeetupAPIKey = config['Meetup-API-Key']
         else:
             logging.error(configError)
             sys.exit(0)
@@ -164,28 +164,6 @@ def nextmeetup(bot, update):
     )
 
 
-def nextmeetups(bot, update):
-    typing(bot, update)
-    response = requests.get('http://api.meetup.com/pydelhi/events', params=MeetupAPIKey)
-
-    if response.json():
-        event_description = re.sub(r'<[\w/=":.\- ]+>', ' ', response.json()[0].get('description'))
-        meetup_link = response.json()[0].get('link')
-        message(
-            bot,
-            update,
-            (
-                'Next Meetup Schedule/Description\n'
-                f'{event_description}'
-                f'Event Page: {meetup_link}'
-            ),
-            parse_mode='HTML',
-        )
-
-    else:
-        message(bot, update, "Next meetup hasn't been scheduled yet!")
-
-
 def facebook(bot, update):
     chatAction(bot, update, 'http://bit.ly/pydelhi-facebook')
 
@@ -238,7 +216,6 @@ dispatcher.add_handler(CommandHandler('twitter', twitter))
 dispatcher.add_handler(CommandHandler('linkedin', linkedin))
 dispatcher.add_handler(CommandHandler('meetuppage', meetup))
 dispatcher.add_handler(CommandHandler('nextmeetup', nextmeetup))
-dispatcher.add_handler(CommandHandler('nextmeetupschedule', nextmeetups))
 dispatcher.add_handler(CommandHandler('facebook', facebook))
 dispatcher.add_handler(CommandHandler('github', github))
 dispatcher.add_handler(CommandHandler('invitelink', invitelink))
